@@ -1,13 +1,15 @@
-* {
+.mainContainer * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: Roboto, sans-serif;
 }
-
-html,
-body {
+html {
     background-color: rgb(235, 235, 240);
+}
+.mainContainer, body {
+    background-color: rgb(235, 235, 240);
+    line-height: normal;
 }
 
 table {
@@ -21,13 +23,13 @@ ul {
     list-style-type: none;
 }
 
-td {
+#sudoku td {
     border: 1px solid #000000;
     text-align: center;
     vertical-align: middle;
 }
 
-td input {
+#sudoku td input {
     color: #000000;
     padding: 0;
     border: 0;
@@ -41,23 +43,23 @@ td input {
     transition: all 0.5s;
 }
 
-input:disabled {
+#sudoku input:disabled {
     background-color: #bbdefb;
 }
 
-tr:nth-child(3n) {
+#sudoku tr:nth-child(3n) {
     border-bottom: 4px solid #000000;
 }
 
-tr:nth-child(3n + 1) {
+#sudoku tr:nth-child(3n + 1) {
     border-top: 4px solid #000000;
 }
 
-td:nth-child(3n) {
+#sudoku td:nth-child(3n) {
     border-right: 4px solid #000000;
 }
 
-td:nth-child(3n + 1) {
+#sudoku td:nth-child(3n + 1) {
     border-left: 4px solid #000000;
 }
 
@@ -234,7 +236,7 @@ td:nth-child(3n + 1) {
     display: flex;
 }
 
-.card {
+.sudoku-card {
     background: #fff;
     width: fit-content;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.14);
@@ -501,7 +503,7 @@ td:nth-child(3n + 1) {
 }
 
 .dialog-card {
-    padding: 16px;
+    padding: 8px;
     margin: 8px;
     max-width: 160px;
 }
@@ -550,4 +552,19 @@ td:nth-child(3n + 1) {
     right: 18px;
     z-index: 25;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.dropdown {
+    margin-top: 13px;
+}
+
+.dropdown .btn {
+    color: white;
+}
+
+.dropdown .btn:hover {
+    color: white;
+}
+.btn:focus {
+    box-shadow: none!important;
 }
