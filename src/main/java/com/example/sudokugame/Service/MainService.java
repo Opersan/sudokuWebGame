@@ -19,15 +19,22 @@ public class MainService {
     private static Boolean startFromZero;
 
     public void setValues(List<Integer> possibleNumbers, ArrayList<Integer> rows, Boolean startFromZero){
+        System.out.println(rows);
         MainService.possibleNumbers = possibleNumbers;
         MainService.rows = rows;
         MainService.startFromZero = startFromZero;
     }
-    public List<Integer> solveSudoku(){
-        return getPossibleNumbers();
+    public List<Integer> solveSudoku(String algorithm){
+        List<Integer> a = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            a.add(123123123);
+            a.add(456456456);
+            a.add(789789789);
+        }
+        return a;
     }
 
-    public List<Integer> getPossibleNumbers() {
+    public List<Integer> getPossibleNumbers(String algorithm) {
         return possibleNumbers;
     }
 

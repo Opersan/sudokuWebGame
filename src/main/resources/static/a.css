@@ -46,20 +46,55 @@ ul {
 #sudoku input:disabled {
     background-color: #bbdefb;
 }
-
-#sudoku tr:nth-child(3n) {
+#sudoku .tr-2:nth-child(2n) {
     border-bottom: 4px solid #000000;
 }
 
-#sudoku tr:nth-child(3n + 1) {
+#sudoku .tr-2:nth-child(2n + 1) {
     border-top: 4px solid #000000;
 }
 
-#sudoku td:nth-child(3n) {
+#sudoku .td-2:nth-child(2n) {
     border-right: 4px solid #000000;
 }
 
-#sudoku td:nth-child(3n + 1) {
+#sudoku .td-2:nth-child(2n + 1) {
+    border-left: 4px solid #000000;
+}
+
+#sudoku .tr-2:nth-child(2n) {
+    border-bottom: 4px solid #000000;
+}
+
+#sudoku .tr-3:nth-child(3n + 1) {
+    border-top: 4px solid #000000;
+}
+
+#sudoku .td-3:nth-child(3n) {
+    border-right: 4px solid #000000;
+}
+
+#sudoku .td-3:nth-child(3n + 1) {
+    border-left: 4px solid #000000;
+}
+
+#sudoku .tr-3:nth-child(3n) {
+    border-bottom: 4px solid #000000;
+}
+
+#sudoku .tr-4:nth-child(4n) {
+    border-bottom: 4px solid #000000;
+}
+
+#sudoku .tr-4:nth-child(4n + 1) {
+    border-top: 4px solid #000000;
+}
+
+#sudoku .td-4:nth-child(4n) {
+    border-right: 4px solid #000000;
+}
+
+#sudoku .td-4:nth-child(4n + 1) {
     border-left: 4px solid #000000;
 }
 
@@ -234,6 +269,7 @@ ul {
     max-width: 800px;
     margin: 96px auto 16px auto;
     display: flex;
+    justify-content: space-around;
 }
 
 .sudoku-card {
@@ -558,6 +594,11 @@ ul {
     margin-top: 13px;
 }
 
+.dropdown li {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
 .dropdown .btn {
     color: white;
 }
@@ -567,4 +608,16 @@ ul {
 }
 .btn:focus {
     box-shadow: none!important;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    height: 100%;
+}
+.radio-group .custom-control {
+    padding-left: 5px;
+    padding-right: 5px;
 }

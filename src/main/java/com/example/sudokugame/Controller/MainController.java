@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -32,9 +30,10 @@ public class MainController {
     }
 
     @RequestMapping(value = "/getAnswers", method=RequestMethod.POST)
-    public String redirectAnswers(Model model){
+    public String redirectAnswers(Model model, @RequestBody String algorithm){
+        model.addAttribute("algorithm", algorithm.split("=")[1]);
         if (model.getAttribute("answers") == null) {
-            List<Integer> a = mainService.solveSudoku();
+            List<Integer> a = mainService.solveSudoku(algorithm.split("=")[1]);
             model.addAttribute("answers", a);
         }
         return "mainPage :: #nav1";

@@ -9,7 +9,7 @@
     <title>$Title$</title>
 </head>
 <body class="mainContainer">
-<script src="/a.js"></script>
+<script src="/a.js" type="text/javascript"></script>
   <nav class="app-bar" id="nav1">
     <button onclick="HamburgerButtonClick();" class="button bar-button hamburger-button">
       <span class="material-icons">menu</span>
@@ -39,18 +39,34 @@
       <span class="material-icons">call_split</span>
       <span>Is unique</span>
     </button>
-    <div class="dropdown more-button bar-button">
+    <div class="radio-group">
+      <div class="custom-control custom-radio custom-control-inline" onclick="gridSettings(4, 4)">
+        <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+        <label class="custom-control-label" for="customRadioInline1">4x4</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline" onclick="gridSettings(9, 9)">
+        <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+        <label class="custom-control-label" for="customRadioInline2">9x9</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline" onclick="gridSettings(16, 16)">
+        <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+        <label class="custom-control-label" for="customRadioInline3">16x16</label>
+      </div>
+    </div>
+    <div class="dropdown more-button bar-button" id="solve-dropdown" style="display: none" >
       <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         Seçenekli Çözüm
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      <ul class="dropdown-menu"aria-labelledby="dropdownMenuButton1" onclick="<!--setValues()-->">
+        <li><a class="dropdown-item" onclick="refreshNav('backtracking')" href="#">Backtracking Algorithm</a></li>
+        <li><a class="dropdown-item" onclick="refreshNav('bee')" href="#">Artificial Bee Colony Algorithm</a></li>
+        <li><a class="dropdown-item" onclick="refreshNav('swarm')" href="#">Particle Swarm Optimization</a></li>
+        <li><a class="dropdown-item" onclick="refreshNav('annealing')" href="#">Simulated Annealing</a></li>
+        <li><a class="dropdown-item" onclick="refreshNav('ant')" href="#">Ant Colony Optimization</a></li>
       </ul>
     </div>
     <span id="answer " th:data-answers="${answers}" th:text="${answers}"></span>
-    <button id="solve-btn" style="display: none;" onclick="solveButtonClick();solveGrid1();" class="button bar-button more-button">
+    <button id="solve-btn" style="display: none;" onclick="solveButtonClick();" class="button bar-button more-button">
       <span class="material-icons">border_color</span>
       <span>Solve</span>
     </button>
@@ -184,7 +200,6 @@
           <td>
             <input type="text" maxlength="1" onchange="checkInput(this)" disabled />
           </td>
-
           <td>
             <input type="text" maxlength="1" onchange="checkInput(this)" disabled />
           </td>
@@ -467,7 +482,7 @@
 
     <div class="sudoku-card status">
       <div id="game-number">Oyun #0</div>
-      <ul class="game-status">
+      <ul id="game-status" class="game-status">
         <li>
           <div class="vertical-adjust">
             <span class="material-icons">timer</span>
