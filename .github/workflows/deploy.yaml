@@ -1,0 +1,8 @@
+name: Deploy Java Spring Boot Application to GitHub Pages
+on: push
+jobs:
+  deploy:
+  steps:
+    - checkout
+    - run: ./gradlew bootRun
+    - run: gh-pages deploy
