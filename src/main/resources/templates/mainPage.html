@@ -38,18 +38,14 @@
     </button>
     <button id="isunique-btn" style="display: none;" onclick="isUniqueButtonClick();" class="button bar-button more-button">
       <span class="material-icons">call_split</span>
-      <span>Is unique</span>
+      <span>Eşsiz mi?</span>
     </button>
     <div class="radio-group">
-      <div class="custom-control custom-radio custom-control-inline" onclick="gridSettings(4, 2)">
-        <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-        <label class="custom-control-label" for="customRadioInline1">4x4</label>
-      </div>
-      <div class="custom-control custom-radio custom-control-inline" onclick="gridSettings(9, 3)">
-        <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+      <div class="custom-control custom-radio custom-control-inline" onclick="setGrid(9, 3);">
+        <input type="radio" checked="checked" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
         <label class="custom-control-label" for="customRadioInline2">9x9</label>
       </div>
-      <div class="custom-control custom-radio custom-control-inline" onclick="gridSettings(16, 4)">
+      <div class="custom-control custom-radio custom-control-inline" onclick="setGrid(16, 4);">
         <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
         <label class="custom-control-label" for="customRadioInline3">16x16</label>
       </div>
@@ -67,10 +63,10 @@
       </ul>
     </div-->
     <span id="answer " th:data-answers="${answers}" th:text="${answers}"></span>
-    <button id="solve-btn" style="display: none;" onclick="solveButtonClick();" class="button bar-button more-button">
+    <!--button id="solve-btn" style="display: none;" onclick="solveButtonClick();" class="button bar-button more-button">
       <span class="material-icons">border_color</span>
       <span>Solve</span>
-    </button>
+    </button-->
     <div id="controls" class="controls">
 
       <button class="js-solve  bar-button more-button" style="order: 7">
@@ -92,11 +88,6 @@
         <span class="material-icons">done</span>
         <span>Yeniden Başlat</span>
       </button>
-      <button class="js-clear  bar-button more-button" style="order: 2">
-        <span class="material-icons">done</span>
-        <span>Temizle</span>
-      </button>
-      <div class="stats js-console"></div>
     </div>
 
   </nav>
@@ -167,7 +158,7 @@
           </li>
           <li class="radio-option">
             <label for="normal">
-              <input id="normal" value="normal" type="radio" name="difficulty"> Normal
+              <input id="normal" checked="checked" value="normal" type="radio" name="difficulty"> Normal
             </label>
           </li>
           <li class="radio-option">
@@ -401,6 +392,30 @@
               </div>
             </div>
 
+          </div>
+        </li>
+        <li>
+          <div class="stats js-console">
+            <div class="vertical-adjust" style="display: none">
+              <span class="material-icons">tag</span>
+              <span>Bulunan Sayı</span>
+            </div>
+            <div id="js-console-digits" style="display: none"></div>
+            <div class="vertical-adjust" style="display: none">
+              <span class="material-icons">tag</span>
+              <span>Geri Alınma Sayısı</span>
+            </div>
+            <div id="js-console-takebacks" style="display: none"></div>
+            <div class="vertical-adjust" style="display: none">
+              <span class="material-icons">tag</span>
+              <span>Tahmin Sayısı</span>
+            </div>
+            <div id="js-console-guess" style="display: none"></div>
+            <div class="vertical-adjust" style="display: none">
+              <span class="material-icons">tag</span>
+              <span>Geçen Süre</span>
+            </div>
+            <div id="js-console-time" style="display: none"></div>
           </div>
         </li>
       </ul>

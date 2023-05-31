@@ -8,7 +8,6 @@ var gameId = 0;
 var puzzle = [];
 var gridSize = 9;
 var blockSize = 3;
-var blockCount = 3;
 
 // solution grid
 var solution = [];
@@ -172,7 +171,7 @@ function generatePossibleNumber(rows, columns, blocks) {
                     if (!rows[i].includes(k))
                         if (!columns[j].includes(k))
                             if (
-                                !blocks[Math.floor(i / blockCount) * blockCount + Math.floor(j / blockCount)].includes(k)
+                                !blocks[Math.floor(i / blockSize) * blockSize + Math.floor(j / blockSize)].includes(k)
                             )
                                 psb[i * gridSize + j] += k;
                 }
@@ -728,6 +727,7 @@ function mainFunction() {
             };
         }
     }
+    setGrid(9, 3);
 }
 
 // function to hide dialog opened in window
@@ -759,6 +759,8 @@ function HamburgerButtonClick() {
 
 // start new game
 function startGameButtonClick() {
+    setGrid(9, 3);
+    document.getElementById("customRadioInline2").checked = true;
     var difficulties = document.getElementsByName("difficulty");
     // difficulty:
     //  0 expert
@@ -791,7 +793,7 @@ function startGameButtonClick() {
     document.getElementById("pause-btn").style.display = "block";
     document.getElementById("check-btn").style.display = "block";
     document.getElementById("isunique-btn").style.display = "none";
-    document.getElementById("solve-btn").style.display = "none";
+    //document.getElementById("solve-btn").style.display = "none";
     //document.getElementById("solve-dropdown").style.display = "none";
 
     // prepare view for new game
@@ -1101,7 +1103,7 @@ function sudokuSolverMenuClick() {
     document.getElementById("pause-btn").style.display = "none";
     document.getElementById("check-btn").style.display = "none";
     document.getElementById("isunique-btn").style.display = "block";
-    document.getElementById("solve-btn").style.display = "block";
+    //document.getElementById("solve-btn").style.display = "block";
     //document.getElementById("solve-dropdown").style.display = "block";
 
     // change status card view
@@ -1177,30 +1179,27 @@ function isUniqueButtonClick() {
     document.getElementById("game-difficulty").innerText = unique ? "Evet" : "Hayır";
 }
 
-function gridSettings(gridSize, blockSize) {
+function setGrid(gridSize1, blockSize1) {
+    gridSize = gridSize1;
+    blockSize = blockSize1;
+    gridSettings();
+}
+function gridSettings() {
     var table = document.getElementById("puzzle-grid");
     var index = 1;
     if (gridSize === 16) document.getElementById("game-status").style.width = "200px";
     else document.getElementById("game-status").style.width = "inherit";
-    this.gridSize = gridSize;
-    this.blockSize = blockSize;
-    if (gridSize === 4) blockCount = 2;
-    else if (gridSize === 9) blockCount = 3;
-    else if (gridSize === 16) blockCount = 4;
+    if (gridSize === 9) blockSize = 3;
+    else if (gridSize === 16) blockSize = 4;
     table.innerHTML = "";
     for(var i = 0; i < gridSize; i++) {
         var row = table.insertRow(i);
-        if (gridSize == 4) row.classList.add("tr-2");
-        else if (gridSize == 9) row.classList.add("tr-3");
+        if (gridSize == 9) row.classList.add("tr-3");
         else if (gridSize == 16) row.classList.add("tr-4");
 
         for(var j = 0; j < gridSize; j++) {
             var cell1 = row.insertCell(j);
-            if (gridSize == 4) {
-                cell1.classList.add("td-2");
-                cell1.innerHTML = "<input type=\"text\" maxlength=\"1\" onchange=\"checkInput(this)\" disabled />";
-            }
-            else if (gridSize==9) {
+            if (gridSize==9) {
                 cell1.innerHTML= '<input class="js-field" maxLength="1" type="text" data-index="' + (index) +'" data-row="' + i +'" data-col="' + j +'"/>';
                 cell1.classList.add("td-3");
                 index++;
@@ -1213,8 +1212,7 @@ function gridSettings(gridSize, blockSize) {
             }
 
         }
-    }
-    mainFunction();
+    };
     sudokuSolverMenuClick();
     var so = new Sudoku(document.getElementById("sudoku"));
 }
@@ -1222,7 +1220,7 @@ function gridSettings(gridSize, blockSize) {
 class Sudoku {
     constructor(container, { controls = true, pauseOnGuess = false } = {}) {
         this.container = document.getElementById("puzzle-grid");
-        var controlContainer = document.getElementById("controls");
+        const controlContainer = document.getElementById("controls");
         this._pauseOnGuess = pauseOnGuess;
         this.init(controls);
         if (controls) {
@@ -1231,7 +1229,7 @@ class Sudoku {
             controlContainer.querySelector(".js-pause").addEventListener("click", ev => this.pause());
             controlContainer.querySelector(".js-continue").addEventListener("click", ev => this.continue());
             controlContainer.querySelector(".js-reset").addEventListener("click", ev => this.reset());
-            controlContainer.querySelector(".js-clear").addEventListener("click", ev => this.clearBoard());
+            //controlContainer.querySelector(".js-clear").addEventListener("click", ev => this.clearBoard());
         }
     }
 
@@ -1245,7 +1243,7 @@ class Sudoku {
             });
             input.addEventListener("focus", ev => {
                 let index = +input.dataset.index;
-                log(container, `Allowed digits:${b2ds(analyze(this.readBoard()).allowed[index]).join(", ")}`);
+                //log('Allowed digits:' + b2ds(analyze(this.readBoard()).allowed[index]).join(", "));
             });
             input.addEventListener("keydown", ev => {
                 let idx = +input.dataset.index;
@@ -1336,6 +1334,24 @@ class Sudoku {
             // do whatever
             input.classList.remove("right-cell");
         });
+
+        let out =  document.getElementById("game-status").querySelector(".js-console");
+        let digits = out.querySelector("#js-console-digits");
+        let takebacks = out.querySelector("#js-console-takebacks");
+        let guess = out.querySelector("#js-console-guess");
+        let time = out.querySelector("#js-console-time");
+        digits.style.display = "none";
+        digits.previousElementSibling.style.display = "none";
+        digits.innerHTML = 0;
+        takebacks.style.display = "none";
+        takebacks.previousElementSibling.style.display = "none";
+        takebacks.innerHTML = 0;
+        guess.style.display = "none";
+        guess.previousElementSibling.style.display = "none";
+        guess.innerHTML = 0;
+        time.style.display = "none";
+        time.previousElementSibling.style.display = "none";
+        time.innerHTML = 0;
     }
 
     _reset() {
@@ -1347,7 +1363,7 @@ class Sudoku {
             // do whatever
             input.classList.remove("right-cell");
         });
-        log(el, "");
+        log();
     }
 
     solve() {
@@ -1359,7 +1375,6 @@ class Sudoku {
         let dcount = 0;
         let time = Date.now();
         if (solve()) {
-            stats();
             self.writeBytes(board);
             el.classList.add("solved");
             let inputs = el.querySelectorAll("input");
@@ -1367,9 +1382,10 @@ class Sudoku {
                 // do whatever
                 input.classList.add("right-cell");
             });
+            stats();
         } else {
             stats();
-            alert("no solution");
+            alert("Çözümü Yok!");
         }
         function solve() {
             let { index, moves, len } = analyze(board);
@@ -1388,7 +1404,7 @@ class Sudoku {
             return false;
         }
         function stats() {
-            log(el, `${dcount} digits placed<br>${backtrack} take-backs<br>${guesswork} guesses<br>${Date.now() - time} milliseconds`);
+            log(dcount, backtrack, guesswork, Date.now() - time);
         }
     }
 
@@ -1401,14 +1417,14 @@ class Sudoku {
         let guesswork = 0;
         let dcount = 0;
         solve(success => {
-            log(el, `${backtrack} take-backs<br>${guesswork} guesses`);
+            log(backtrack,  guesswork);
             el.classList.remove("playing");
             if (success) {
                 self.writeBytes(board);
                 el.classList.add("solved");
 
             } else {
-                alert("Çözümsüz");
+                alert("Çözümü Yok!");
             }
         });
         function solve(cb) {
@@ -1446,7 +1462,7 @@ class Sudoku {
             loop(moves, 1);
         }
         function stats() {
-            log(el, `${dcount} digits placed<br>${backtrack} take-backs<br>${guesswork} guesses`);
+            log(dcount, backtrack , guesswork);
         }
     }
 }
@@ -1475,10 +1491,34 @@ function b2ds(byte) {
     return digits;
 }
 
-function log(el, txt) {
-    let out = el.querySelector(".js-console");
-    if (out)
-        out.innerHTML = txt;
+function log(digitCount = 0, takebackCount = 0, guessCount = 0, timeSpent = 0) {
+    let out =  document.getElementById("game-status").querySelector(".js-console");
+    let digits = out.querySelector("#js-console-digits");
+    let takebacks = out.querySelector("#js-console-takebacks");
+    let guess = out.querySelector("#js-console-guess");
+    let time = out.querySelector("#js-console-time");
+    if (out) {
+        if (digitCount) {
+            digits.style.display = "block";
+            digits.previousElementSibling.style.display = "block";
+            digits.innerHTML = digitCount;
+        }
+        if (takebackCount) {
+            takebacks.style.display = "block";
+            takebacks.previousElementSibling.style.display = "block";
+            takebacks.innerHTML = takebackCount;
+        }
+        if (guessCount) {
+            guess.style.display = "block";
+            guess.previousElementSibling.style.display = "block";
+            guess.innerHTML = guessCount;
+        }
+        if (timeSpent) {
+            time.style.display = "block";
+            time.previousElementSibling.style.display = "block";
+            time.innerHTML = timeSpent + ' ms';
+        }
+    }
 }
 
 function getMoves(board, index) {

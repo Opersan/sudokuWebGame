@@ -630,3 +630,15 @@ ul {
 .controls button{
     padding: 0 5px 0 0;
 }
+
+#js-console-digits, #js-console-takebacks, #js-console-guess, #js-console-time {
+    color: #1565c0;
+    font-size: 25px;
+    padding: 4px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.14);
+    text-align: center;
+}
+
+.stats > .vertical-adjust {
+    margin-bottom: 6px;
+}
