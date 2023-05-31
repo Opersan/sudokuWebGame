@@ -54,30 +54,48 @@
         <label class="custom-control-label" for="customRadioInline3">16x16</label>
       </div>
     </div>
-    <div class="dropdown more-button bar-button" id="solve-dropdown" style="display: none" >
+    <!--div class="dropdown more-button bar-button" id="solve-dropdown" style="display: none" >
       <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
         Seçenekli Çözüm
       </button>
-      <ul class="dropdown-menu"aria-labelledby="dropdownMenuButton1" onclick="<!--setValues()-->">
+      <ul class="dropdown-menu"aria-labelledby="dropdownMenuButton1" onclick="<setValues()">
         <li><a class="dropdown-item" onclick="refreshNav('backtracking')" href="#">Backtracking Algorithm</a></li>
         <li><a class="dropdown-item" onclick="refreshNav('bee')" href="#">Artificial Bee Colony Algorithm</a></li>
         <li><a class="dropdown-item" onclick="refreshNav('swarm')" href="#">Particle Swarm Optimization</a></li>
         <li><a class="dropdown-item" onclick="refreshNav('annealing')" href="#">Simulated Annealing</a></li>
         <li><a class="dropdown-item" onclick="refreshNav('ant')" href="#">Ant Colony Optimization</a></li>
       </ul>
-    </div>
+    </div-->
     <span id="answer " th:data-answers="${answers}" th:text="${answers}"></span>
     <button id="solve-btn" style="display: none;" onclick="solveButtonClick();" class="button bar-button more-button">
       <span class="material-icons">border_color</span>
       <span>Solve</span>
     </button>
-    <div id="controls" class="controls bar-button more-button" style="margin-top: 20px">
-      <button class="button js-solve">Solve!</button>
-      <button class="js-play">Play</button>
-      <button class="js-pause">Pause</button>
-      <button class="js-continue">Continue</button>
-      <button class="js-reset">Reset</button>
-      <button class="js-clear">Clear</button>
+    <div id="controls" class="controls">
+
+      <button class="js-solve  bar-button more-button" style="order: 7">
+        <span class="material-icons">done</span>
+        <span>Çöz!</span>
+      </button>
+      <button class="js-play  bar-button more-button" style="order: 6">
+        <span class="material-icons">done</span>
+        <span>Çöz(adım)</span>
+      </button>
+      <button class="js-pause  bar-button more-button" style="order: 5">
+        <span class="material-icons">done</span>
+        <span>Durdur</span></button>
+      <button class="js-continue  bar-button more-button" style="order: 4">
+        <span class="material-icons">done</span>
+        <span>Devam ettir</span>
+      </button>
+      <button class="js-reset  bar-button more-button" style="order: 3">
+        <span class="material-icons">done</span>
+        <span>Yeniden Başlat</span>
+      </button>
+      <button class="js-clear  bar-button more-button" style="order: 2">
+        <span class="material-icons">done</span>
+        <span>Temizle</span>
+      </button>
       <div class="stats js-console"></div>
     </div>
 

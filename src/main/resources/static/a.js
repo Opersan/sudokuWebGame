@@ -774,7 +774,7 @@ function startGameButtonClick() {
     document.getElementById("check-btn").style.display = "block";
     document.getElementById("isunique-btn").style.display = "none";
     document.getElementById("solve-btn").style.display = "none";
-    document.getElementById("solve-dropdown").style.display = "none";
+    //document.getElementById("solve-dropdown").style.display = "none";
 
     // prepare view for new game
     document.getElementById("timer-label").innerText = "Time";
@@ -1084,17 +1084,17 @@ function sudokuSolverMenuClick() {
     document.getElementById("check-btn").style.display = "none";
     document.getElementById("isunique-btn").style.display = "block";
     document.getElementById("solve-btn").style.display = "block";
-    document.getElementById("solve-dropdown").style.display = "block";
+    //document.getElementById("solve-dropdown").style.display = "block";
 
     // change status card view
     // timer for time takes to solve grid
     // gameid show text "sudoku solver"
     // difficulty show if grid solved is unique
-    document.getElementById("timer-label").innerText = "Solve time";
+    document.getElementById("timer-label").innerText = "Süre";
     document.getElementById("timer").innerText = "00:00";
-    document.getElementById("game-difficulty-label").innerText = "Is unique";
-    document.getElementById("game-difficulty").innerText = "Unknown";
-    document.getElementById("game-number").innerText = "#Soduko_Solver";
+    document.getElementById("game-difficulty-label").innerText = "Eşsiz mi";
+    document.getElementById("game-difficulty").innerText = "Tanımsız";
+    document.getElementById("game-number").innerText = "#Sudoku_Çözücü";
 
     //focus first cell
     document
@@ -1112,16 +1112,16 @@ function solveButtonClick() {
     var result = solveSudoku(true);
     switch (result) {
         case 0:
-            alert("SOLVED");
+            alert("Çözüldü");
             break;
         case 1:
-            alert("This grid is already solved");
+            alert("Bu tablo zaten çözülü!");
             break;
         case 2:
-            alert("This grid can't be solved because of an invalid input");
+            alert("Hatalı girdilerden ötürü çözülemez!");
             break;
         case 3:
-            alert("this grid has no solution");
+            alert("Bu tablonun çözümü yok!");
             break;
     }
 }
@@ -1134,7 +1134,7 @@ function isUniqueButtonClick() {
         if (canSolved) solveSudoku(false);
     }
     if (!isSolved) {
-        alert("Can't check this grid because it is unsolvable!");
+        alert("Çözülemez Olduğundan Kontrol Edilemiyor!");
         return;
     }
 
@@ -1156,7 +1156,7 @@ function isUniqueButtonClick() {
     }
 
     //display the result
-    document.getElementById("game-difficulty").innerText = unique ? "Yes" : "No";
+    document.getElementById("game-difficulty").innerText = unique ? "Evet" : "Hayır";
 }
 
 function gridSettings(rowCount, columnCount) {
@@ -1310,13 +1310,24 @@ class Sudoku {
     }
 
     reset() {
+        let el = this.container;
         this.writeBoard(this._initBoard || [], true);
+        let inputs = el.querySelectorAll("input");
+        [].forEach.call(inputs, function(input) {
+            // do whatever
+            input.classList.remove("right-cell");
+        });
     }
 
     _reset() {
         let el = this.container;
         clearTimeout(this._playTimer);
         el.classList.remove("solved", "playing", "paused");
+        let inputs = el.querySelectorAll("input");
+        [].forEach.call(inputs, function(input) {
+            // do whatever
+            input.classList.remove("right-cell");
+        });
         log(el, "");
     }
 
@@ -1371,8 +1382,9 @@ class Sudoku {
             if (success) {
                 self.writeBytes(board);
                 el.classList.add("solved");
+
             } else {
-                alert("no solution");
+                alert("Çözümsüz");
             }
         });
         function solve(cb) {
@@ -1401,7 +1413,8 @@ class Sudoku {
                     stats();
                     board[index] = m;
                     self.writeBytes(board);
-                    el.querySelector('input[data-index="' + index + '"]').classList.add("current");
+                    el.querySelector('input[data-index="' + (index + 1) + '"]').classList.add("current");
+                    el.querySelector('input[data-index="' + (index + 1) + '"]').classList.add("right-cell");
                     self._playTimer = setTimeout(self._playCont = () =>
                         solve(success => success ? cb(true) : loop(moves ^ m, m << 1)), 100);
                 } else loop(moves, m << 1);
