@@ -6,8 +6,8 @@ var gameId = 0;
 
 // puzzle grid
 var puzzle = [];
-var rowCount = 9;
-var columnCount = 9;
+var gridSize = 9;
+var blockSize = 3;
 var blockCount = 3;
 
 // solution grid
@@ -25,6 +25,24 @@ var timer = 0;
 var pauseTimer = false;
 var intervalId;
 var gameOn = false;
+
+var a =
+    [7, 14, 8, 12, 9, 0, 0, 0, 10, 0, 4, 3, 1, 0, 0, 0,
+    9, 15, 0, 13, 7, 0, 6, 12, 0, 0, 11, 14, 3, 4, 16, 0,
+    0, 0, 0, 0, 10, 0, 0, 2, 7, 6, 0, 13, 0, 0, 0, 0,
+    3, 11, 2, 0, 13, 0, 0, 0, 0, 0, 5, 16, 0, 8, 0, 9,
+    0, 9, 0, 8, 0, 2, 0, 0, 16, 1, 6, 0, 0, 15, 0, 0,
+    5, 13, 14, 15, 0, 0, 0, 16, 0, 0, 0, 2, 0, 0, 6, 0,
+    16, 0, 1, 10, 6, 0, 7, 3, 0, 0, 13, 0, 14, 0,  0,  0,
+    0, 0, 0, 2, 0, 13, 0, 0, 0, 0, 0, 4, 0, 16, 0, 0,
+    0, 10, 4, 0, 0, 6, 5, 0, 0, 11, 2, 1, 0, 13, 0, 3,
+    0, 6, 12, 5, 0, 16, 0, 0, 0, 0, 8, 0, 0, 0, 9, 10,
+    8, 7, 9, 0, 1, 14, 11, 10, 0, 0, 16, 0, 0, 0, 4, 2,
+    14, 0, 0, 11, 2, 0, 15, 9, 0, 0, 12, 10, 5, 0, 0, 0,
+    4, 2, 16, 14, 0, 3, 13, 7, 0, 10, 1, 0, 8, 11, 0, 15,
+    6, 12, 11, 7, 4, 9, 0, 1, 5, 13, 15, 8, 0, 0, 10, 0,
+    13, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 2, 0, 0, 0,
+    0, 0, 15, 0, 16, 11, 12, 14, 0, 2, 3, 0, 6, 9, 0, 13]
 
 function newGame(difficulty) {
     var grid = getGridInit();
@@ -65,9 +83,9 @@ function newGame(difficulty) {
 function getGridInit() {
     var rand = [];
     // for each digits from 1 to 9 find a random row and column
-    for (var i = 1; i <= rowCount; i++) {
-        var row = Math.floor(Math.random() * rowCount);
-        var col = Math.floor(Math.random() * columnCount);
+    for (var i = 1; i <= gridSize; i++) {
+        var row = Math.floor(Math.random() * gridSize);
+        var col = Math.floor(Math.random() * gridSize);
         var accept = true;
         for (var j = 0; j < rand.length; j++) {
             // if number exist or there is a number already located in then ignore and try again
@@ -86,7 +104,7 @@ function getGridInit() {
 
     // initialize new empty grid
     var result = [];
-    for (var i = 0; i < rowCount; i++) {
+    for (var i = 0; i < gridSize; i++) {
         var row = "000000000";
         result.push(row);
     }
@@ -106,11 +124,11 @@ function getGridInit() {
 // return columns from a row grid
 function getColumns(grid) {
     var result = [];
-    for (var i = 0; i < rowCount; i++) {
+    for (var i = 0; i < gridSize; i++) {
         result.push("");
     }
-    for (var i = 0; i < rowCount; i++) {
-        for (var j = 0; j < columnCount; j++) {
+    for (var i = 0; i < gridSize; i++) {
+        for (var j = 0; j < gridSize; j++) {
             result[j] += grid[i][j];
         }
         /*try {
@@ -125,8 +143,8 @@ function getColumns(grid) {
 // return blocks from a row grid
 function getBlocks(grid) {
     var result = ["", "", "", "", "", "", "", "", ""];
-    for (var i = 0; i < rowCount; i++) {
-        for (var j = 0; j < columnCount; j++)
+    for (var i = 0; i < gridSize; i++) {
+        for (var j = 0; j < gridSize; j++)
             result[Math.floor(i / 3) * 3 + Math.floor(j / 3)] += grid[i][j];
     }
     return result;
@@ -144,19 +162,19 @@ function generatePossibleNumber(rows, columns, blocks) {
 
     // for each cell get numbers that are not viewed in a row, column or block
     // if the cell is not empty then, allowed number is the number already exist in it
-    for (var i = 0; i < rowCount; i++) {
-        for (var j = 0; j < columnCount; j++) {
-            psb[i * rowCount + j] = "";
+    for (var i = 0; i < gridSize; i++) {
+        for (var j = 0; j < gridSize; j++) {
+            psb[i * gridSize + j] = "";
             if (rows[i][j] != 0) {
-                psb[i * rowCount + j] += rows[i][j];
+                psb[i * gridSize + j] += rows[i][j];
             } else {
-                for (var k = "1"; k <= rowCount.toString(); k++) {
+                for (var k = "1"; k <= gridSize.toString(); k++) {
                     if (!rows[i].includes(k))
                         if (!columns[j].includes(k))
                             if (
                                 !blocks[Math.floor(i / blockCount) * blockCount + Math.floor(j / blockCount)].includes(k)
                             )
-                                psb[i * rowCount + j] += k;
+                                psb[i * gridSize + j] += k;
                 }
             }
         }
@@ -333,7 +351,7 @@ function solveSudoku1() {
 // level is current row number in the grid
 function nextStep(level, possibleNumber, rows, solution, startFromZero) {
     // get possible number fit in each cell in this row
-    var x = possibleNumber.slice(level * rowCount, (level + 1) * rowCount);
+    var x = possibleNumber.slice(level * gridSize, (level + 1) * gridSize);
     // generate possible numbers sequence that fit in the current row
     var y = generatePossibleRows(x);
     if (y.length == 0) return 0;
@@ -347,9 +365,9 @@ function nextStep(level, possibleNumber, rows, solution, startFromZero) {
     // try every numbers sequence in this list and go to next row
     for (var num = start; condition; num += step) {
         var condition = startFromZero ? num + step <= stop : num + step >= stop;
-        for (var i = level + 1; i < rowCount; i++) solution[i] = rows[i];
+        for (var i = level + 1; i < gridSize; i++) solution[i] = rows[i];
         solution[level] = y[num];
-        if (level < (rowCount - 1)) {
+        if (level < (gridSize - 1)) {
             /*if (solution[4] === undefined) {
                       var x = 0;
                       x++;
@@ -362,7 +380,7 @@ function nextStep(level, possibleNumber, rows, solution, startFromZero) {
                 return 1;
             }
         }
-        if (level === (rowCount - 1)) {
+        if (level === (gridSize - 1)) {
             return 1;
         }
     }
@@ -374,7 +392,7 @@ function generatePossibleRows(possibleNumber) {
     var result = [];
 
     function step(level, PossibleRow) {
-        if (level === rowCount) {
+        if (level === gridSize) {
             result.push(PossibleRow);
             return;
         }
@@ -456,9 +474,9 @@ function ViewPuzzle(grid) {
 // read current grid
 function readInput() {
     var result = [];
-    for (var i = 0; i < rowCount; i++) {
+    for (var i = 0; i < gridSize; i++) {
         result.push("");
-        for (var j = 0; j < columnCount; j++) {
+        for (var j = 0; j < gridSize; j++) {
             var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
             if (input.value == "" || input.value.length > 1 || input.value == "0") {
                 input.value = "";
@@ -667,8 +685,8 @@ function mainFunction() {
             }, 1500);
         };
     }
-    for (var i = 0; i < rowCount; i++) {
-        for (var j = 0; j < columnCount; j++) {
+    for (var i = 0; i < gridSize; i++) {
+        for (var j = 0; j < gridSize; j++) {
             var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
 
             // add function to remove color from cells and update remaining numbers table when it get changed
@@ -678,14 +696,14 @@ function mainFunction() {
                 var element = this;
                 // check if the new value entered is allowed
                 function checkInput(element) {
-                    if ((rowCount == 4 && (element.value < 0 || element.value > 4)) ||
-                        (rowCount == 9 && (element.value < 0 || element.value > 9)) ||
-                        (rowCount == 16 && (element.value < 0 || element.value > 16))) {
+                    if ((gridSize == 4 && (element.value < 0 || element.value > 4)) ||
+                        (gridSize == 9 && (element.value < 0 || element.value > 9)) ||
+                        (gridSize == 16 && (element.value < 0 || element.value > 16))) {
                         if (element.value != "?" && element.value != "؟") {
                             element.value = "";
-                            if (rowCount == 4) alert("only numbers [1-4] and question mark '?' are allowed!!");
-                            else if (rowCount == 9) alert("only numbers [1-9] and question mark '?' are allowed!!");
-                            else if (rowCount == 16) alert("only numbers [1-16] and question mark '?' are allowed!!");
+                            if (gridSize == 4) alert("only numbers [1-4] and question mark '?' are allowed!!");
+                            else if (gridSize == 9) alert("only numbers [1-9] and question mark '?' are allowed!!");
+                            else if (gridSize == 16) alert("only numbers [1-16] and question mark '?' are allowed!!");
                         }
                     }
                 }
@@ -919,8 +937,8 @@ function hintButtonClick() {
         // get list of empty cells and list of wrong cells
         var empty_cells_list = [];
         var wrong_cells_list = [];
-        for (var i = 0; i < rowCount; i++) {
-            for (var j = 0; j < columnCount; j++) {
+        for (var i = 0; i < gridSize; i++) {
+            for (var j = 0; j < gridSize; j++) {
                 var input = table.rows[i].cells[j].getElementsByTagName("input")[0];
                 if (input.value == "" || input.value.length > 1 || input.value == "0") {
                     empty_cells_list.push([i, j]);
@@ -1063,9 +1081,9 @@ function sudokuSolverMenuClick() {
 
     // generate empty grid
     var grid = [];
-    for (var i = 0; i < rowCount; i++) {
+    for (var i = 0; i < gridSize; i++) {
         grid.push("");
-        for (var j = 0; j < columnCount; j++) {
+        for (var j = 0; j < gridSize; j++) {
             grid[i] += "0";
         }
     }
@@ -1159,36 +1177,36 @@ function isUniqueButtonClick() {
     document.getElementById("game-difficulty").innerText = unique ? "Evet" : "Hayır";
 }
 
-function gridSettings(rowCount, columnCount) {
+function gridSettings(gridSize, blockSize) {
     var table = document.getElementById("puzzle-grid");
     var index = 1;
-    if (rowCount === 16) document.getElementById("game-status").style.width = "200px";
+    if (gridSize === 16) document.getElementById("game-status").style.width = "200px";
     else document.getElementById("game-status").style.width = "inherit";
-    this.rowCount = rowCount;
-    this.columnCount = columnCount;
-    if (rowCount === 4) blockCount = 2;
-    else if (rowCount === 9) blockCount = 3;
-    else if (rowCount === 16) blockCount = 4;
+    this.gridSize = gridSize;
+    this.blockSize = blockSize;
+    if (gridSize === 4) blockCount = 2;
+    else if (gridSize === 9) blockCount = 3;
+    else if (gridSize === 16) blockCount = 4;
     table.innerHTML = "";
-    for(var i = 0; i < rowCount; i++) {
+    for(var i = 0; i < gridSize; i++) {
         var row = table.insertRow(i);
-        if (rowCount == 4) row.classList.add("tr-2");
-        else if (rowCount == 9) row.classList.add("tr-3");
-        else if (rowCount == 16) row.classList.add("tr-4");
+        if (gridSize == 4) row.classList.add("tr-2");
+        else if (gridSize == 9) row.classList.add("tr-3");
+        else if (gridSize == 16) row.classList.add("tr-4");
 
         for(var j = 0; j < columnCount; j++) {
             var cell1 = row.insertCell(j);
-            if (rowCount == 4) {
+            if (gridSize == 4) {
                 cell1.classList.add("td-2");
                 cell1.innerHTML = "<input type=\"text\" maxlength=\"1\" onchange=\"checkInput(this)\" disabled />";
             }
-            else if (rowCount==9) {
+            else if (gridSize==9) {
                 cell1.innerHTML= '<input class="js-field" maxLength="1" type="text" data-index="' + (index) +'" data-row="' + i +'" data-col="' + j +'"/>';
                 cell1.classList.add("td-3");
                 index++;
                 //cell1.innerHTML = "<input type=\"text\" maxlength=\"1\" onchange=\"checkInput(this)\" disabled />";
             }
-            else if (rowCount == 16) {
+            else if (gridSize == 16) {
                 cell1.classList.add("td-4");
                 cell1.innerHTML= '<input class="js-field" maxLength="2" type="text" data-index="' + (index) +'" data-row="' + i +'" data-col="' + j +'"/>';
                 index++;
@@ -1251,8 +1269,8 @@ class Sudoku {
                             next = idx - 1; break;
                     }
                     if (next != null) {
-                        if (next < 0) next += 81;
-                        next %= 81;
+                        if (next < 0) next += 256;
+                        next %= 256;
                         next = parent.querySelector(`input[data-index="${next}"]`);
                         next.focus();
                         next.select();
@@ -1269,8 +1287,9 @@ class Sudoku {
     }
 
     continue() {
-        this.container.classList.remove("paused");
-        this._playCont();
+        //this.container.classList.remove("paused");
+        //this._playCont();
+        this.writeBoard(a);
     }
 
     readBoard(init = false) {
@@ -1428,11 +1447,11 @@ class Sudoku {
 }
 
 function i2rc(index) {
-    return { row: index / 9 | 0, col: index % 9 };
+    return { row: index / gridSize | 0, col: index % gridSize };
 }
 
 function rc2i(row, col) {
-    return row * 9 + col;
+    return row * gridSize + col;
 }
 
 function d2b(digit) {
@@ -1459,28 +1478,28 @@ function log(el, txt) {
 
 function getMoves(board, index) {
     let { row, col } = i2rc(index);
-    let r1 = 3 * (row / 3 | 0);
-    let c1 = 3 * (col / 3 | 0);
+    let r1 = blockSize * (row / blockSize | 0);
+    let c1 = blockSize * (col / blockSize | 0);
     let moves = 0;
-    for (let r = r1, i = 0; r < r1 + 3; r++) {
-        for (let c = c1; c < c1 + 3; c++, i++) {
+    for (let r = r1, i = 0; r < r1 + blockSize; r++) {
+        for (let c = c1; c < c1 + blockSize; c++, i++) {
             moves |= board[rc2i(r, c)]
                 | board[rc2i(row, i)]
                 | board[rc2i(i, col)];
         }
     }
-    return moves ^ 511;
+    return moves ^ 65535;
 }
 
 function unique(allowed, index, value) {
     let { row, col } = i2rc(index);
-    let r1 = 3 * (row / 3 | 0);
-    let c1 = 3 * (col / 3 | 0);
-    let ir = 9 * row;
+    let r1 = blockSize * (row / blockSize | 0);
+    let c1 = blockSize * (col / blockSize | 0);
+    let ir = gridSize * row;
     let ic = col;
     let uniq_row = true, uniq_col = true, uniq_3x3 = true;
-    for (let r = r1; r < r1 + 3; ++r) {
-        for (let c = c1; c < c1 + 3; ++c, ++ir, ic += 9) {
+    for (let r = r1; r < r1 + blockSize; ++r) {
+        for (let c = c1; c < c1 + blockSize; ++c, ++ir, ic += gridSize) {
             if (uniq_3x3) {
                 let i = rc2i(r, c);
                 if (i != index && allowed[i] & value) uniq_3x3 = false;
@@ -1500,17 +1519,18 @@ function unique(allowed, index, value) {
 function analyze(board) {
     let allowed = board.map((x, i) => x ? 0 : getMoves(board, i));
     let bestIndex, bestLen = 100;
-    for (let i = 0; i < 81; i++) if (!board[i]) {
+    for (let i = 0; i < (gridSize * gridSize); i++) if (!board[i]) {
         let moves = allowed[i];
         let len = 0;
-        for (let m = 1; moves; m <<= 1) if (moves & m) {
-            ++len;
-            if (unique(allowed, i, m)) {
-                allowed[i] = m;
-                len = 1;
-                break;
-            }
-            moves ^= m;
+        for (let m = 1; moves; m <<= 1)
+            if (moves & m) {
+                ++len;
+                if (unique(allowed, i, m)) {
+                    allowed[i] = m;
+                    len = 1;
+                    break;
+                }
+                moves ^= m;
         }
         if (len < bestLen) {
             bestLen = len;
