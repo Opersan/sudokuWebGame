@@ -1194,7 +1194,7 @@ function gridSettings(gridSize, blockSize) {
         else if (gridSize == 9) row.classList.add("tr-3");
         else if (gridSize == 16) row.classList.add("tr-4");
 
-        for(var j = 0; j < columnCount; j++) {
+        for(var j = 0; j < gridSize; j++) {
             var cell1 = row.insertCell(j);
             if (gridSize == 4) {
                 cell1.classList.add("td-2");
@@ -1245,8 +1245,7 @@ class Sudoku {
             });
             input.addEventListener("focus", ev => {
                 let index = +input.dataset.index;
-                log(container, `Allowed digits:
-      ${b2ds(analyze(this.readBoard()).allowed[index]).join(", ")}`);
+                log(container, `Allowed digits:${b2ds(analyze(this.readBoard()).allowed[index]).join(", ")}`);
             });
             input.addEventListener("keydown", ev => {
                 let idx = +input.dataset.index;
@@ -1254,24 +1253,25 @@ class Sudoku {
                     input.value = String.fromCharCode(ev.keyCode);
                     if (input.value == "0") input.value = "";
                     input.select();
-                    ev.preventDefault();
+                    ev.stopPropagation();
                 } else {
-                    let parent = input.parentNode;
+                    let parent = input.parentNode.parentNode.parentNode;
                     let next;
                     switch (ev.keyCode) {
                         case 38: // ↑
-                            next = idx - 9; break;
+                            next = idx - gridSize; break;
                         case 40: // ↓
-                            next = idx + 9; break;
+                            next = idx + gridSize; break;
                         case 39: // →
                             next = idx + 1; break;
                         case 37: // ←
                             next = idx - 1; break;
                     }
+                    console.log(next);
                     if (next != null) {
-                        if (next < 0) next += 256;
-                        next %= 256;
-                        next = parent.querySelector(`input[data-index="${next}"]`);
+                        if (next < 0) next += gridSize * gridSize;
+                        next %= gridSize * gridSize;
+                        next = parent.querySelector('input[data-index="' + next + '"]');
                         next.focus();
                         next.select();
                         ev.preventDefault();
@@ -1362,6 +1362,11 @@ class Sudoku {
             stats();
             self.writeBytes(board);
             el.classList.add("solved");
+            let inputs = el.querySelectorAll("input");
+            [].forEach.call(inputs, function(input) {
+                // do whatever
+                input.classList.add("right-cell");
+            });
         } else {
             stats();
             alert("no solution");
