@@ -1,0 +1,13 @@
+name: Build and Test Java Spring Boot Application
+on: push
+jobs:
+  bootRun:
+  steps:
+    - checkout
+    - run: ./gradlew bootRun
+    - run: echo "BUILD SUCCESS"
+build:
+  steps:
+    - checkout
+    - run: ./gradlew build
+    - run: echo "TEST SUCCESS"
