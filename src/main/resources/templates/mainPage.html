@@ -2,15 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/a.css">
+    <link rel="stylesheet" href="/sudokuStyle.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <title>$Title$</title>
 </head>
 <body class="mainContainer">
-<script src="/a.js" type="text/javascript"></script>
-<script src="/sudoku.js"></script>
+<script src="/SudokuSolver.js" type="text/javascript"></script>
   <nav class="app-bar" id="nav1">
     <button onclick="HamburgerButtonClick();" class="button bar-button hamburger-button">
       <span class="material-icons">menu</span>
@@ -20,7 +19,6 @@
       <button onclick="moreOptionButtonClick()" class="button bar-button">
         <span class="material-icons">more_vert</span>
       </button>
-      <!-- it is important to put these styles in here because if I do not do that it will not work in javaScript-->
       <div id="more-option-list" style="visibility: hidden;max-height: 10px;max-width: 40px;min-width: 40px;" class="more-option-list">
         <button onclick="hintButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">İpucu</button>
         <button onclick="restartButtonClick()" ripple-color="#003c8f" class="button nav-item vertical-adjust">Yeniden Başlat</button>
@@ -40,7 +38,7 @@
       <span class="material-icons">call_split</span>
       <span>Eşsiz mi?</span>
     </button>
-    <div class="radio-group">
+    <div id="radio-group" class="radio-group">
       <div class="custom-control custom-radio custom-control-inline" onclick="setGrid(9, 3);">
         <input type="radio" checked="checked" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
         <label class="custom-control-label" for="customRadioInline2">9x9</label>
@@ -50,32 +48,14 @@
         <label class="custom-control-label" for="customRadioInline3">16x16</label>
       </div>
     </div>
-    <!--div class="dropdown more-button bar-button" id="solve-dropdown" style="display: none" >
-      <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        Seçenekli Çözüm
-      </button>
-      <ul class="dropdown-menu"aria-labelledby="dropdownMenuButton1" onclick="<setValues()">
-        <li><a class="dropdown-item" onclick="refreshNav('backtracking')" href="#">Backtracking Algorithm</a></li>
-        <li><a class="dropdown-item" onclick="refreshNav('bee')" href="#">Artificial Bee Colony Algorithm</a></li>
-        <li><a class="dropdown-item" onclick="refreshNav('swarm')" href="#">Particle Swarm Optimization</a></li>
-        <li><a class="dropdown-item" onclick="refreshNav('annealing')" href="#">Simulated Annealing</a></li>
-        <li><a class="dropdown-item" onclick="refreshNav('ant')" href="#">Ant Colony Optimization</a></li>
-      </ul>
-    </div-->
-    <span id="answer " th:data-answers="${answers}" th:text="${answers}"></span>
-    <!--button id="solve-btn" style="display: none;" onclick="solveButtonClick();" class="button bar-button more-button">
-      <span class="material-icons">border_color</span>
-      <span>Solve</span>
-    </button-->
     <div id="controls" class="controls">
-
       <button class="js-solve  bar-button more-button" style="order: 7">
         <span class="material-icons">done</span>
-        <span>Çöz!</span>
+        <span>Backtracking ile Çöz</span>
       </button>
       <button class="js-play  bar-button more-button" style="order: 6">
         <span class="material-icons">done</span>
-        <span>Çöz(adım)</span>
+        <span>Backtracking ile Çöz(adım)</span>
       </button>
       <button class="js-pause  bar-button more-button" style="order: 5">
         <span class="material-icons">done</span>
@@ -96,7 +76,7 @@
     <nav id="nav-menu" class="nav-menu">
       <div class="nav-head">
         <div class="nav-head-img">
-          <img src="https://image.ibb.co/jmuOKn/icon.jpg" art="" />
+          <img src="https://i.ibb.co/D4cZN4r/sudoku.png" art="" />
         </div>
         <div class="nav-head-title">Sudoku</div>
       </div>
@@ -119,13 +99,6 @@
             <span style="left:12px;">Hakkında</span>
           </div>
         </button>
-        <div class="bar-footer">
-          <ul>
-            <a href="#" class="bar-footer-link">Site feedback</a>
-            <a href="#" class="bar-footer-link">Privacy</a>
-            <a href="#" class="bar-footer-link">Terms</a>
-          </ul>
-        </div>
       </ul>
     </nav>
     <div class="nav-menu-blank" onclick="hideHamburgerClick()">
@@ -148,12 +121,12 @@
         <ul>
           <li class="radio-option">
             <label for="very-easy">
-              <input id="very-easy" value="very easy" type="radio" name="difficulty"> Çok Kolay
+              <input id="very-easy" value="Çok kolay" type="radio" name="difficulty"> Çok Kolay
             </label>
           </li>
           <li class="radio-option">
             <label for="easy">
-              <input id="easy" value="easy" type="radio" name="difficulty"> Kolay
+              <input id="easy" value="Kolay" type="radio" name="difficulty"> Kolay
             </label>
           </li>
           <li class="radio-option">
@@ -163,12 +136,12 @@
           </li>
           <li class="radio-option">
             <label for="hard">
-              <input id="hard" value="hard" type="radio" name="difficulty"> Zor
+              <input id="hard" value="Zor" type="radio" name="difficulty"> Zor
             </label>
           </li>
           <li class="radio-option">
             <label for="very-hard">
-              <input id="very-hard" value="expert" type="radio" name="difficulty"> Çok Zor
+              <input id="very-hard" value="Çok Zor" type="radio" name="difficulty"> Çok Zor
             </label>
           </li>
         </ul>
@@ -343,7 +316,7 @@
           </div>
           <div id="game-difficulty" class="timer">Tanımsız</div>
         </li>
-        <li>
+        <!--li>
           <div class="vertical-adjust">
             <span class="material-icons">grid_on</span>
             <span>Kalan Numaralar</span>
@@ -393,7 +366,7 @@
             </div>
 
           </div>
-        </li>
+        </li-->
         <li>
           <div class="stats js-console">
             <div class="vertical-adjust" style="display: none">

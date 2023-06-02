@@ -106,7 +106,7 @@ ul {
     box-shadow: inset 0px 0px 20px 3px tomato;
 }
 
-.worning-cell {
+.warning-cell {
     box-shadow: inset 0px 0px 20px 3px goldenrod;
 }
 
@@ -204,9 +204,8 @@ ul {
 }
 
 .nav-head-img {
+    margin-left: 65px;
     position: relative;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
     width: 96px;
     height: 96px;
     top: 16px;
