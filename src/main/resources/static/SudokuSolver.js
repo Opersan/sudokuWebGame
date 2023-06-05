@@ -48,6 +48,142 @@ var b =
         0, 0, 1, 8, 0, 0, 0, 0, 2
     ]
 
+
+const songs= [
+    {
+        id: '1',
+        songName: `Enter One  <br> 
+        <div class="subtitle">Sol Seppy</div>`,
+        poster:"img/1.png"
+    },
+    {
+        id: "2",
+        songName: `Girls Just Want To Have Fun <br> 
+        <div class="subtitle">Cyndi Lauper</div>`,
+        poster:"img/2.png"
+    },
+    {
+        id: "3",
+        songName: `Ohne Dich <br> 
+        <div class="subtitle">Rammstein</div>`,
+        poster:"img/3.png"
+    },
+    {
+        id: "4",
+        songName: `Got It Lost It<br> 
+        <div class="subtitle">Big Scary</div>`,
+        poster:"img/4.png"
+    },
+    {
+        id: "5",
+        songName: `I know<br> 
+        <div class="subtitle">Placebo</div>`,
+        poster:"img/5.png"
+    },
+    {
+        id: "6",
+        songName: `Losing My Religion<br> 
+        <div class="subtitle">R.E.M</div>`,
+        poster:"img/6.png"
+    },
+    {
+        id: "7",
+        songName: `Gosia<br> 
+        <div class="subtitle">The Mayan Factor</div>`,
+        poster:"img/7.png"
+    },
+    {
+        id: "8",
+        songName: `Holiday<br> 
+        <div class="subtitle">Green Day</div>`,
+        poster:"img/8.png"
+    },
+    {
+        id: 9,
+        songName: `Standing Next To Me<br> 
+        <div class="subtitle">The Last Shadow Puppets</div>`,
+        poster:"img/9.png"
+    },
+    {
+        id: "10",
+        songName: `Daunt<br> 
+        <div class="subtitle">Jelani Aryeh</div>`,
+        poster:"img/10.png"
+    },
+    {
+        id: "11",
+        songName: `They don't care about us <br>
+        <div class="subtitle">Michael Jackson</div>`,
+        poster:"img/11.png"
+    },
+    {
+        id: "12",
+        songName: `Get Lucky <br>
+        <div class="subtitle">Daft Punk</div>`,
+        poster:"img/12.png"
+    },
+    {
+        id: "13",
+        songName: `Don't Blame <br>
+        <div class="subtitle">Taylor Swift</div>`,
+        poster:"img/13.png"
+    },
+    {
+        id: "14",
+        songName: `Save Your Tears <br>
+        <div class="subtitle">The Weeknd</div>`,
+        poster:"img/14.png"
+    },
+    {
+        id: "15",
+        songName: `Toxic <br>
+        <div class="subtitle">Britney Spears</div>`,
+        poster:"img/15.png"
+    },
+    {
+        id: "16",
+        songName: `Rolling In The Deep <br>
+        <div class="subtitle">Adele</div>`,
+        poster:"img/16.png"
+    },
+    {
+        id: "17",
+        songName: `Bohemian Rhapsody <br>
+        <div class="subtitle">Queen</div>`,
+        poster:"img/17.png"
+    },
+    {
+        id: "18",
+        songName: `Blinding Lights <br>
+        <div class="subtitle">The Weeknd</div>`,
+        poster:"img/18.png"
+    },
+    {
+        id: "19",
+        songName: `Can't Get You Out Of My Head <br>
+        <div class="subtitle">Kylie Minogue</div>`,
+        poster:"img/19.png"
+    },
+    {
+        id: "20",
+        songName: `Dream On <br>
+        <div class="subtitle">aerosmith</div>`,
+        poster:"img/20.png"
+    },
+    {
+        id: "21",
+        songName: `Sadderdaze <br>
+        <div class="subtitle">The Neighbourhood</div>`,
+        poster:"img/21.png"
+    },
+    {
+        id: "22",
+        songName: `Grenade <br>
+        <div class="subtitle">Bruno Mars</div>`,
+        poster:"img/22.png"
+    }
+]
+
 function newGame(difficulty) {
     var grid = getGridInit();
 
@@ -260,7 +396,6 @@ function ViewPuzzle(grid) {
             } else {
                 input.disabled = true;
                 input.value = grid[i][j];
-                remaining[grid[i][j] - 1]--;
             }
         }
     }
@@ -678,7 +813,6 @@ function hintButtonClick() {
                 input.oldvalue = input.value;
                 input.value =
                     solution[empty_cells_list[index][0]][empty_cells_list[index][1]];
-                remaining[input.value - 1]--;
             } else {
                 var index = Math.floor(Math.random() * wrong_cells_list.length);
                 input = table.rows[wrong_cells_list[index][0]].cells[
@@ -688,7 +822,6 @@ function hintButtonClick() {
                 remaining[input.value - 1]++;
                 input.value =
                     solution[wrong_cells_list[index][0]][wrong_cells_list[index][1]];
-                remaining[input.value - 1]--;
             }
 
         }
@@ -1233,3 +1366,4 @@ function analyze(board) {
         allowed: allowed
     };
 }
+
