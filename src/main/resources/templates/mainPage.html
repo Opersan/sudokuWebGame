@@ -34,6 +34,10 @@
       <span class="material-icons">done_all</span>
       <span>Kontrol Et</span>
     </button>
+    <button id="isunique-btn" style="display: none;" onclick="isUniqueButtonClick();" class="button bar-button more-button">
+      <span class="material-icons">call_split</span>
+      <span>Eşsiz mi?</span>
+    </button>
     <div id="radio-group" class="radio-group">
       <div class="custom-control custom-radio custom-control-inline" onclick="setGrid(9, 3);">
         <input type="radio" checked="checked" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
@@ -127,7 +131,7 @@
           </li>
           <li class="radio-option">
             <label for="normal">
-              <input id="normal" checked="checked" value="normal" type="radio" name="difficulty"> Normal
+              <input id="normal" checked="checked" value="Normal" type="radio" name="difficulty"> Normal
             </label>
           </li>
           <li class="radio-option">
@@ -307,7 +311,7 @@
 
         <li>
           <div class="vertical-adjust">
-            <span class="material-icons">network_check</span>
+            <span id="game-difficulty-icon" class="material-icons">network_check</span>
             <span id="game-difficulty-label">Zorluk</span>
           </div>
           <div id="game-difficulty" class="timer">Tanımsız</div>

@@ -468,6 +468,10 @@ function startGameButtonClick() {
     document.getElementById("timer-label").innerText = "Zaman";
     document.getElementById("timer").innerText = "00:00";
     document.getElementById("game-difficulty-label").innerText = "Zorluk";
+    document.getElementById("game-difficulty-icon").style.display = "inline-block";
+    document.getElementById("game-difficulty").style.display = "block";
+    document.getElementById("game-difficulty-label").style.display = "inline-block";
+
 
     document.getElementById("game-difficulty").innerText =
         difficulty < difficulties.length
@@ -718,14 +722,42 @@ function sudokuSolverMenuClick() {
 
     document.getElementById("timer-label").innerText = "Süre";
     document.getElementById("timer").innerText = "00:00";
-    document.getElementById("game-difficulty-label").innerText = "Eşsiz mi";
-    document.getElementById("game-difficulty").innerText = "Tanımsız";
+    document.getElementById("game-difficulty-label").style.display = "none";
+    document.getElementById("game-difficulty").style.display = "none";
+    document.getElementById("game-difficulty-icon").style.display = "none";
     document.getElementById("game-number").innerText = "#Sudoku_Çözücü";
 
     document
         .getElementById("puzzle-grid")
         .rows[0].cells[0].getElementsByTagName("input")[0]
         .focus();
+}
+
+function isUniqueButtonClick() {
+    if (!isSolved) {
+        if (canSolved) solveSudoku(false);
+    }
+    if (!isSolved) {
+        alert("Çözülemez Olduğundan Kontrol Edilemiyor!");
+        return;
+    }
+
+    var columns = getColumns(puzzle);
+    var blocks = getBlocks(puzzle);
+    var solution2 = solveGrid(generatePossibleNumber(puzzle, columns, blocks), puzzle,false);
+
+    var unique = true;
+    for (var i = 0; i < solution.length; i++) {
+        for (var j = 0; j < solution[i].length; j++) {
+            if (solution[i][j] !== solution2[i][j]) {
+                unique = false;
+                break;
+            }
+            if (!unique) break;
+        }
+    }
+
+    document.getElementById("game-difficulty").innerText = unique ? "Evet" : "Hayır";
 }
 
 function setGrid(gridSize1, blockSize1) {
