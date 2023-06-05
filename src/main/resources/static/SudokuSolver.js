@@ -17,7 +17,7 @@ var pauseTimer = false;
 var intervalId;
 var gameOn = false;
 
-var sudokuSolver =
+var grid2 =
     [7, 14, 8, 12, 9, 0, 0, 0, 10, 0, 4, 3, 1, 0, 0, 0,
     9, 15, 0, 13, 7, 0, 6, 12, 0, 0, 11, 14, 3, 4, 16, 0,
     0, 0, 0, 0, 10, 0, 0, 2, 7, 6, 0, 13, 0, 0, 0, 0,
@@ -35,7 +35,7 @@ var sudokuSolver =
     13, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 2, 0, 0, 0,
     0, 0, 15, 0, 16, 11, 12, 14, 0, 2, 3, 0, 6, 9, 0, 13]
 
-var b =
+var grid1 =
     [
         0, 0, 0, 0, 0, 0, 0, 0, 6,
         0, 3, 0, 0, 7, 1, 0, 4, 0,
@@ -47,142 +47,6 @@ var b =
         2, 0, 0, 0, 0, 0, 7, 0, 0,
         0, 0, 1, 8, 0, 0, 0, 0, 2
     ]
-
-
-const songs= [
-    {
-        id: '1',
-        songName: `Enter One  <br> 
-        <div class="subtitle">Sol Seppy</div>`,
-        poster:"img/1.png"
-    },
-    {
-        id: "2",
-        songName: `Girls Just Want To Have Fun <br> 
-        <div class="subtitle">Cyndi Lauper</div>`,
-        poster:"img/2.png"
-    },
-    {
-        id: "3",
-        songName: `Ohne Dich <br> 
-        <div class="subtitle">Rammstein</div>`,
-        poster:"img/3.png"
-    },
-    {
-        id: "4",
-        songName: `Got It Lost It<br> 
-        <div class="subtitle">Big Scary</div>`,
-        poster:"img/4.png"
-    },
-    {
-        id: "5",
-        songName: `I know<br> 
-        <div class="subtitle">Placebo</div>`,
-        poster:"img/5.png"
-    },
-    {
-        id: "6",
-        songName: `Losing My Religion<br> 
-        <div class="subtitle">R.E.M</div>`,
-        poster:"img/6.png"
-    },
-    {
-        id: "7",
-        songName: `Gosia<br> 
-        <div class="subtitle">The Mayan Factor</div>`,
-        poster:"img/7.png"
-    },
-    {
-        id: "8",
-        songName: `Holiday<br> 
-        <div class="subtitle">Green Day</div>`,
-        poster:"img/8.png"
-    },
-    {
-        id: 9,
-        songName: `Standing Next To Me<br> 
-        <div class="subtitle">The Last Shadow Puppets</div>`,
-        poster:"img/9.png"
-    },
-    {
-        id: "10",
-        songName: `Daunt<br> 
-        <div class="subtitle">Jelani Aryeh</div>`,
-        poster:"img/10.png"
-    },
-    {
-        id: "11",
-        songName: `They don't care about us <br>
-        <div class="subtitle">Michael Jackson</div>`,
-        poster:"img/11.png"
-    },
-    {
-        id: "12",
-        songName: `Get Lucky <br>
-        <div class="subtitle">Daft Punk</div>`,
-        poster:"img/12.png"
-    },
-    {
-        id: "13",
-        songName: `Don't Blame <br>
-        <div class="subtitle">Taylor Swift</div>`,
-        poster:"img/13.png"
-    },
-    {
-        id: "14",
-        songName: `Save Your Tears <br>
-        <div class="subtitle">The Weeknd</div>`,
-        poster:"img/14.png"
-    },
-    {
-        id: "15",
-        songName: `Toxic <br>
-        <div class="subtitle">Britney Spears</div>`,
-        poster:"img/15.png"
-    },
-    {
-        id: "16",
-        songName: `Rolling In The Deep <br>
-        <div class="subtitle">Adele</div>`,
-        poster:"img/16.png"
-    },
-    {
-        id: "17",
-        songName: `Bohemian Rhapsody <br>
-        <div class="subtitle">Queen</div>`,
-        poster:"img/17.png"
-    },
-    {
-        id: "18",
-        songName: `Blinding Lights <br>
-        <div class="subtitle">The Weeknd</div>`,
-        poster:"img/18.png"
-    },
-    {
-        id: "19",
-        songName: `Can't Get You Out Of My Head <br>
-        <div class="subtitle">Kylie Minogue</div>`,
-        poster:"img/19.png"
-    },
-    {
-        id: "20",
-        songName: `Dream On <br>
-        <div class="subtitle">aerosmith</div>`,
-        poster:"img/20.png"
-    },
-    {
-        id: "21",
-        songName: `Sadderdaze <br>
-        <div class="subtitle">The Neighbourhood</div>`,
-        poster:"img/21.png"
-    },
-    {
-        id: "22",
-        songName: `Grenade <br>
-        <div class="subtitle">Bruno Mars</div>`,
-        poster:"img/22.png"
-    }
-]
 
 function newGame(difficulty) {
     var grid = getGridInit();
@@ -457,72 +321,6 @@ function startTimer() {
     }, 1000);
 }
 
-function solveSudoku(changeUI) {
-    puzzle = readInput();
-
-    var columns = getColumns(puzzle);
-    var blocks = getBlocks(puzzle);
-
-    var errors = 0;
-    var correct = 0;
-
-    for (var i = 0; i < puzzle.length; i++) {
-        for (var j = 0; j < puzzle[i].length; j++) {
-            var result = checkValue(
-                puzzle[i][j],
-                puzzle[i],
-                columns[j],
-                blocks[Math.floor(i / 3) * 3 + Math.floor(j / 3)],
-                -1,
-                -1
-            );
-            correct = correct + (result === 2 ? 1 : 0);
-            errors = errors + (result > 2 ? 1 : 0);
-            addClassToCell(
-                table.rows[i].cells[j].getElementsByTagName("input")[0],
-                result > 2 ? "wrong-cell" : undefined
-            );
-        }
-    }
-
-    if (errors > 0) {
-        canSolved = false;
-        return 2;
-    }
-
-    canSolved = true;
-    isSolved = true;
-
-    if (correct === 81) {
-        return 1;
-    }
-
-    var time = Date.now();
-
-    solution = solveGrid(
-        generatePossibleNumber(puzzle, columns, blocks),
-        puzzle,
-        true
-    );
-
-    time = Date.now() - time;
-
-    if (changeUI)
-        document.getElementById("timer").innerText =
-            Math.floor(time / 1000) + "." + ("000" + (time % 1000)).slice(-3);
-
-    if (solution === undefined) {
-        isSolved = false;
-        canSolved = false;
-        return 3;
-    }
-
-    if (changeUI) {
-        ViewPuzzle(solution);
-    }
-    return 0;
-}
-
 function hideMoreOptionMenu() {
     var moreOptionList = document.getElementById("more-option-list");
     if (moreOptionList.style.visibility == "visible") {
@@ -664,7 +462,6 @@ function startGameButtonClick() {
     document.getElementById("moreoption-sec").style.display = "block";
     document.getElementById("pause-btn").style.display = "block";
     document.getElementById("check-btn").style.display = "block";
-    document.getElementById("isunique-btn").style.display = "none";
     document.getElementById("radio-group").style.display = "none";
     document.getElementById("isunique-btn").style.display = "none";
 
@@ -675,7 +472,7 @@ function startGameButtonClick() {
     document.getElementById("game-difficulty").innerText =
         difficulty < difficulties.length
             ? difficulties[difficulty].value
-            : "solved";
+            : "Çözüldü";
 }
 
 function pauseGameButtonClick() {
@@ -684,11 +481,11 @@ function pauseGameButtonClick() {
 
     if (pauseTimer) {
         icon.innerText = "pause";
-        label.innerText = "Pause";
+        label.innerText = "Duraklat";
         table.style.opacity = 1;
     } else {
         icon.innerText = "play_arrow";
-        label.innerText = "Continue";
+        label.innerText = "Devam Et";
         table.style.opacity = 0;
     }
 
@@ -743,12 +540,12 @@ function checkButtonClick() {
         if (currects === 81) {
             gameOn = false;
             pauseTimer = true;
-            document.getElementById("game-difficulty").innerText = "Solved";
+            document.getElementById("game-difficulty").innerText = "Çözüldü";
             clearInterval(intervalId);
-            alert("Congrats, You solved it.");
+            alert("Tebrikler, çözdünüz.");
         } else if (errors === 0 && currects === 0) {
             alert(
-                "Congrats, You solved it, but this is not the solution that I want."
+                "Tebrikler, çözdünüz."
             );
         }
     }
@@ -773,7 +570,7 @@ function SurrenderButtonClick() {
         pauseTimer = true;
         clearInterval(intervalId);
 
-        document.getElementById("game-difficulty").innerText = "Solved";
+        document.getElementById("game-difficulty").innerText = "Çözüldü";
     }
 }
 
@@ -795,9 +592,9 @@ function hintButtonClick() {
         if (empty_cells_list.length === 0 && wrong_cells_list.length === 0) {
             gameOn = false;
             pauseTimer = true;
-            document.getElementById("game-difficulty").innerText = "Solved";
+            document.getElementById("game-difficulty").innerText = "Çözüldü";
             clearInterval(intervalId);
-            alert("Congrats, You solved it.");
+            alert("Tebrikler, Çözdünüz!");
         } else {
             timer += 60;
 
@@ -917,7 +714,6 @@ function sudokuSolverMenuClick() {
     document.getElementById("moreoption-sec").style.display = "none";
     document.getElementById("pause-btn").style.display = "none";
     document.getElementById("check-btn").style.display = "none";
-    document.getElementById("isunique-btn").style.display = "block";
     document.getElementById("radio-group").style.display = "flex";
 
     document.getElementById("timer-label").innerText = "Süre";
@@ -930,33 +726,6 @@ function sudokuSolverMenuClick() {
         .getElementById("puzzle-grid")
         .rows[0].cells[0].getElementsByTagName("input")[0]
         .focus();
-}
-
-function isUniqueButtonClick() {
-    if (!isSolved) {
-        if (canSolved) solveSudoku(false);
-    }
-    if (!isSolved) {
-        alert("Çözülemez Olduğundan Kontrol Edilemiyor!");
-        return;
-    }
-
-    var columns = getColumns(puzzle);
-    var blocks = getBlocks(puzzle);
-    var solution2 = solveGrid(generatePossibleNumber(puzzle, columns, blocks), puzzle,false);
-
-    var unique = true;
-    for (var i = 0; i < solution.length; i++) {
-        for (var j = 0; j < solution[i].length; j++) {
-            if (solution[i][j] !== solution2[i][j]) {
-                unique = false;
-                break;
-            }
-            if (!unique) break;
-        }
-    }
-
-    document.getElementById("game-difficulty").innerText = unique ? "Evet" : "Hayır";
 }
 
 function setGrid(gridSize1, blockSize1) {
@@ -1057,7 +826,8 @@ class Sudoku {
     }
 
     load() {
-        this.writeBoard(sudokuSolver);
+        if(gridSize == 9) this.writeBoard(grid1);
+        else if (gridSize == 16) this.writeBoard(grid2);
     }
 
     readBoard(init = false) {
