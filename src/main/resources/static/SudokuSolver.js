@@ -17,25 +17,70 @@ var pauseTimer = false;
 var intervalId;
 var gameOn = false;
 
-var grid2 =
-    [7, 14, 8, 12, 9, 0, 0, 0, 10, 0, 4, 3, 1, 0, 0, 0,
-    9, 15, 0, 13, 7, 0, 6, 12, 0, 0, 11, 14, 3, 4, 16, 0,
-    0, 0, 0, 0, 10, 0, 0, 2, 7, 6, 0, 13, 0, 0, 0, 0,
-    3, 11, 2, 0, 13, 0, 0, 0, 0, 0, 5, 16, 0, 8, 0, 9,
-    0, 9, 0, 8, 0, 2, 0, 0, 16, 1, 6, 0, 0, 15, 0, 0,
-    5, 13, 14, 15, 0, 0, 0, 16, 0, 0, 0, 2, 0, 0, 6, 0,
-    16, 0, 1, 10, 6, 0, 7, 3, 0, 0, 13, 0, 14, 0,  0,  0,
-    0, 0, 0, 2, 0, 13, 0, 0, 0, 0, 0, 4, 0, 16, 0, 0,
-    0, 10, 4, 0, 0, 6, 5, 0, 0, 11, 2, 1, 0, 13, 0, 3,
-    0, 6, 12, 5, 0, 16, 0, 0, 0, 0, 8, 0, 0, 0, 9, 10,
-    8, 7, 9, 0, 1, 14, 11, 10, 0, 0, 16, 0, 0, 0, 4, 2,
-    14, 0, 0, 11, 2, 0, 15, 9, 0, 0, 12, 10, 5, 0, 0, 0,
-    4, 2, 16, 14, 0, 3, 13, 7, 0, 10, 1, 0, 8, 11, 0, 15,
-    6, 12, 11, 7, 4, 9, 0, 1, 5, 13, 15, 8, 0, 0, 10, 0,
-    13, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0, 2, 0, 0, 0,
-    0, 0, 15, 0, 16, 11, 12, 14, 0, 2, 3, 0, 6, 9, 0, 13]
+var medium16 =
+       [0, 4, 0, 0,     8, 0, 16, 0,    11, 0, 1, 0,    0, 6, 0, 14,
+        3, 0, 0, 9,     0, 15, 0, 4,    10, 7, 0, 13,   0, 0, 12, 0,
+        0, 6, 0, 0,     2, 11, 0, 0,    8, 0, 0, 0,     3, 0, 0, 0,
+        15,0, 0, 0,     0, 0, 0, 13,    0, 0, 14, 0,    0, 2, 0, 4,
 
-var grid1 =
+        0, 0, 0, 8,     0, 3, 0, 0,     7, 0, 0, 0,     5, 0, 0, 0,
+        0, 0, 0, 0,     0, 0, 14, 0,    0, 0, 0, 10,    0, 16, 0, 13,
+        0, 0, 9, 2,     5, 0, 0, 0,     0, 8, 0, 0,     11, 0,  0,  0,
+        12,0, 1, 0,     0, 0, 0, 16,    0, 0, 13, 0,    0, 0, 3, 0,
+
+        0, 0, 0, 12,    15, 0, 0, 0,    0, 6, 0, 0,    13, 0, 4, 7,
+        16, 1, 13, 0,   10, 0, 0, 3,    0, 0, 7, 0,    0, 9, 0, 0,
+        6, 0, 0, 0,     0, 0, 11, 0,    4, 0, 0, 9,    0, 0, 2, 10,
+        0, 3, 0, 0,     0, 16, 0, 0,    0, 14, 8, 0,   0, 11, 0, 0,
+
+        5, 11, 3, 10,   0, 0, 0, 8,     0, 0, 12, 4,    0, 0, 0, 1,
+        0, 14, 0, 0,    11, 9, 0, 0,    0, 13, 15, 0,   4, 0, 5, 0,
+        13, 0, 4, 0,    6, 0, 0, 0,     0, 0, 0, 2,     0, 12, 0, 9,
+        0, 12, 0, 16,   0, 13, 0, 0,    0, 1, 0, 0,     6, 0, 15, 0]
+
+var hard16 =
+       [0, 2, 0, 0,     1, 16, 4, 0,    0, 10, 0, 0,    0, 0, 12, 0,
+        10, 0, 0, 11,     0, 6, 0, 0,    2, 0, 0, 0,   0, 14, 0, 0,
+        0, 12, 0, 0,     0, 0, 0, 8,    0, 0, 3, 0,     2, 0, 0, 10,
+        0,0, 0, 15,     0, 0, 5, 0,    1, 0, 0, 0,    0, 0, 4, 0,
+
+        11, 0, 12, 0,     0, 14, 0, 6,     0, 1, 0, 3,     0, 10, 0, 4,
+        0, 13, 0, 7,     10, 0, 3, 0,    0, 0, 0, 16,    0, 0, 5, 0,
+        16, 0, 15, 0,    12, 0, 0, 0,     8, 0, 0, 0,     9, 0,  0,  2,
+        0,0, 0, 9,     0, 11, 0, 0,    0, 0, 0, 15,    0, 3, 0, 0,
+
+        0, 8, 4, 0,    11, 0, 12, 2,    0, 5, 0, 0,    14, 0, 9, 0,
+        7, 0, 10, 0,   0, 0, 0, 0,      3, 0, 0, 9,    0, 15, 0, 11,
+        0, 6, 0, 0,     15, 0, 0, 16,    0, 0, 10, 0,    12, 0, 13, 0,
+        0, 0, 0, 12,     0, 1, 0, 0,    0, 16, 0, 13,   0,6, 0, 7,
+
+        0, 0, 0, 0,     0, 0, 0, 0,     11, 0, 5, 0,    0, 0, 0, 0,
+        0, 0, 0, 10,    13, 9, 0, 5,    0, 12, 0, 0,   15, 0, 8, 0,
+        0, 7, 0, 0,    8, 0, 14, 0,     0, 0, 15, 0,     0, 0, 0, 0,
+        14, 0, 3, 0,    0, 7, 0, 0,    0, 0, 13, 2,     0, 4, 0, 16]
+
+var veryHard16 =
+        [8, 0, 9, 0,     10, 0, 0, 12,  16, 0, 15, 0,    0, 0, 0, 4,
+        0, 0, 15, 0,     0, 0, 5, 0,    0, 7, 0, 10,     0, 0, 13, 0,
+        2, 0, 0, 0,     0, 0, 0, 4,     0, 0, 0, 0,     0, 16, 0, 14,
+        0, 6, 0, 3,     0, 0, 14, 0,    0, 0, 11, 0,    9, 0, 0, 0,
+
+        0, 0, 0, 0,     0, 9, 0, 0,     1, 0, 0, 2,     0, 0, 0, 7,
+        11, 0, 0, 0,     14, 0, 0, 6,      0, 0, 0, 0,    0, 13, 0, 0,
+        0, 7, 0, 16,    0, 2, 0, 0,     12, 0, 0, 0,     0, 0,  1,  0,
+        0,0, 0, 5,        8, 0, 0, 13,    0, 3, 0, 0,    0, 0, 0, 9,
+
+        12, 0, 4, 0,    0, 0, 7, 0,    13, 0, 8, 0,    11, 0, 0, 0,
+        0, 5, 0, 8,     0, 13, 0, 10,   0, 16, 0, 4,    0, 0, 0, 0,
+        0, 0, 14, 0,     0, 0, 9, 0,    6, 0, 0, 11,    0, 1, 0, 3,
+        1, 0, 0, 0,     3, 0, 0, 5,    0, 0, 0, 0,      6, 0, 16, 0,
+
+        14, 0, 7, 0,     0, 0, 10, 0,     0, 12, 0, 9,    0, 8, 2, 0,
+        0, 16, 0, 12,    0, 14, 0, 3,    0, 0, 0, 0,   13, 0, 0, 11,
+        5, 10, 0, 0,    6, 0, 11, 0,     0, 0, 14, 0,     0, 7, 0, 0,
+        15, 0, 1, 0,    0, 0, 0, 2,    0, 0, 0, 5,     0, 0, 0, 12]
+
+var medium9 =
     [
         0, 0, 0, 0, 0, 0, 0, 0, 6,
         0, 3, 0, 0, 7, 1, 0, 4, 0,
@@ -47,6 +92,55 @@ var grid1 =
         2, 0, 0, 0, 0, 0, 7, 0, 0,
         0, 0, 1, 8, 0, 0, 0, 0, 2
     ]
+var hard9 =
+    [
+        8, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 3, 6, 0, 0, 0, 0, 0,
+        0, 7, 0, 0, 9, 0, 2, 0, 0,
+        0, 5, 0, 0, 0, 7, 0, 0, 0,
+        0, 0, 0, 0, 4, 5, 7, 0, 0,
+        0, 0, 0, 1, 0, 0, 0, 3, 0,
+        0, 0, 1, 0, 0, 0, 0, 6, 8,
+        0, 0, 8, 5, 0, 0, 0, 1, 0,
+        0, 9, 0, 0, 0, 0, 4, 0, 0
+    ]
+var harder9 =
+    [
+        0, 0, 3, 9, 0, 0, 0, 0, 0,
+        4, 0, 0, 0, 8, 0, 0, 3, 6,
+        0, 0, 8, 0, 0, 0, 1, 0, 0,
+        0, 4, 0, 0, 6, 0, 0, 7, 3,
+        8, 0, 0, 0, 0, 0, 0, 1, 0,
+        0, 0, 0, 0, 0, 2, 0, 0, 0,
+        0, 0, 4, 0, 7, 0, 0, 6, 8,
+        6, 0, 0, 0, 0, 0, 0, 0, 0,
+        7, 0, 0, 0, 0, 0, 5, 0, 0
+    ]
+var reallyHarder9 =
+    [
+        0, 0, 0, 8, 0, 1, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 4, 3,
+        5, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 7, 0, 8, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0,
+        0, 2, 0, 0, 3, 0, 0, 0, 0,
+        6, 0, 0, 0, 0, 0, 0, 7, 5,
+        0, 0, 3, 4, 0, 0, 0, 0, 0,
+        0, 0, 0, 2, 0, 0, 6, 0, 0
+    ]
+var extremeHard9 =
+    [
+        0, 1, 0, 0, 5, 0, 4, 0, 9,
+        0, 0, 0, 0, 0, 8, 3, 0, 0,
+        4, 2, 3, 0, 0, 0, 7, 0, 0,
+        2, 0, 0, 6, 0, 0, 0, 0, 0,
+        0, 0, 4, 0, 0, 0, 0, 3, 5,
+        0, 9, 0, 0, 0, 0, 0, 0, 4,
+        1, 0, 0, 0, 8, 0, 0, 9, 0,
+        9, 0, 0, 0, 0, 2, 0, 0, 1,
+        0, 0, 8, 0, 7, 0, 0, 0, 0
+    ]
+
 
 function newGame(difficulty) {
     var grid = getGridInit();
@@ -159,14 +253,6 @@ function generatePossibleNumber(rows, columns, blocks) {
 function solveGrid(possibleNumber, rows, startFromZero) {
     var solution = [];
 
-    // Steps are:
-    //  1.  get all allowed numbers that fit in each empty cell
-    //  2.  generate all possible rows that fit in the first row depend on the allowed number list
-    //` 3.  select one row from possible row list and put it in the first row
-    //  4.  go to next row and find all possible number that fit in each cell
-    //  5.  generate all possible row fit in this row then go to step 3 until reach the last row or there aren't any possible rows left
-    //  6.  if next row hasn't any possible left then go the previous row and try the next possibility from possibility rows' list
-    //  7.  if the last row has reached and sudokuSolver row fit in it has found then the grid has solved
     var result = nextStep(0, possibleNumber, rows, solution, startFromZero);
     if (result == 1) return solution;
 }
@@ -464,13 +550,30 @@ function startGameButtonClick() {
     document.getElementById("check-btn").style.display = "block";
     document.getElementById("radio-group").style.display = "none";
     document.getElementById("isunique-btn").style.display = "none";
+    document.getElementById("timer-label").style.display = "block";
+    document.getElementById("timer-label-label").style.display = "inline-block";
+    document.getElementById("timer").style.display = "block";
 
-    document.getElementById("timer-label").innerText = "Zaman";
+    document.getElementById("timer-label-label").innerText = "Zaman";
     document.getElementById("timer").innerText = "00:00";
     document.getElementById("game-difficulty-label").innerText = "Zorluk";
     document.getElementById("game-difficulty-icon").style.display = "inline-block";
     document.getElementById("game-difficulty").style.display = "block";
     document.getElementById("game-difficulty-label").style.display = "inline-block";
+
+    let out =  document.getElementById("game-status").querySelector(".js-console");
+    let digits = out.querySelector("#js-console-digits");
+    let takebacks = out.querySelector("#js-console-takebacks");
+    let guess = out.querySelector("#js-console-guess");
+    let time = out.querySelector("#js-console-time");
+    digits.style.display = "none";
+    digits.previousElementSibling.style.display = "none";
+    takebacks.style.display = "none";
+    takebacks.previousElementSibling.style.display = "none";
+    guess.style.display = "none";
+    guess.previousElementSibling.style.display = "none";
+    time.style.display = "none";
+    time.previousElementSibling.style.display = "none";
 
 
     document.getElementById("game-difficulty").innerText =
@@ -719,9 +822,26 @@ function sudokuSolverMenuClick() {
     document.getElementById("pause-btn").style.display = "none";
     document.getElementById("check-btn").style.display = "none";
     document.getElementById("radio-group").style.display = "flex";
+    let out =  document.getElementById("game-status").querySelector(".js-console");
+    let digits = out.querySelector("#js-console-digits");
+    let takebacks = out.querySelector("#js-console-takebacks");
+    let guess = out.querySelector("#js-console-guess");
+    let time = out.querySelector("#js-console-time");
+    digits.style.display = "block";
+    digits.previousElementSibling.style.display = "block";
+    takebacks.style.display = "block";
+    takebacks.previousElementSibling.style.display = "block";
+    guess.style.display = "block";
+    guess.previousElementSibling.style.display = "block";
+    time.style.display = "block";
+    time.previousElementSibling.style.display = "block";
+    digits.innerHTML = 0;
+    takebacks.innerHTML = 0;
+    guess.innerHTML = 0;
+    time.innerHTML = 0 + " ms";
 
-    document.getElementById("timer-label").innerText = "Süre";
-    document.getElementById("timer").innerText = "00:00";
+    document.getElementById("timer-label").style.display = "none";
+    document.getElementById("timer").style.display = "none";
     document.getElementById("game-difficulty-label").style.display = "none";
     document.getElementById("game-difficulty").style.display = "none";
     document.getElementById("game-difficulty-icon").style.display = "none";
@@ -858,8 +978,8 @@ class Sudoku {
     }
 
     load() {
-        if(gridSize == 9) this.writeBoard(grid1);
-        else if (gridSize == 16) this.writeBoard(grid2);
+        if(gridSize == 9) this.writeBoard(medium9);
+        else if (gridSize == 16) this.writeBoard(medium16);
     }
 
     readBoard(init = false) {
@@ -913,18 +1033,10 @@ class Sudoku {
         let takebacks = out.querySelector("#js-console-takebacks");
         let guess = out.querySelector("#js-console-guess");
         let time = out.querySelector("#js-console-time");
-        digits.style.display = "none";
-        digits.previousElementSibling.style.display = "none";
         digits.innerHTML = 0;
-        takebacks.style.display = "none";
-        takebacks.previousElementSibling.style.display = "none";
         takebacks.innerHTML = 0;
-        guess.style.display = "none";
-        guess.previousElementSibling.style.display = "none";
         guess.innerHTML = 0;
-        time.style.display = "none";
-        time.previousElementSibling.style.display = "none";
-        time.innerHTML = 0;
+        time.innerHTML = 0 + " ms";
     }
 
     _reset() {
@@ -945,7 +1057,7 @@ class Sudoku {
         let backtrack = 0;
         let guesswork = 0;
         let dcount = 0;
-        let time = Date.now();
+        let time = window.performance.now();
         if (solve()) {
             self.writeBytes(board);
             el.classList.add("solved");
@@ -975,7 +1087,7 @@ class Sudoku {
             return false;
         }
         function stats() {
-            log(dcount, backtrack, guesswork, Date.now() - time);
+            log(dcount, backtrack, guesswork, window.performance.now() - time);
         }
     }
 
@@ -1077,23 +1189,15 @@ function log(digitCount = 0, takebackCount = 0, guessCount = 0, timeSpent = 0) {
     let time = out.querySelector("#js-console-time");
     if (out) {
         if (digitCount) {
-            digits.style.display = "block";
-            digits.previousElementSibling.style.display = "block";
             digits.innerHTML = digitCount;
         }
         if (takebackCount) {
-            takebacks.style.display = "block";
-            takebacks.previousElementSibling.style.display = "block";
             takebacks.innerHTML = takebackCount;
         }
         if (guessCount) {
-            guess.style.display = "block";
-            guess.previousElementSibling.style.display = "block";
             guess.innerHTML = guessCount;
         }
         if (timeSpent) {
-            time.style.display = "block";
-            time.previousElementSibling.style.display = "block";
             time.innerHTML = timeSpent + ' ms';
         }
     }
